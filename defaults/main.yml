@@ -3,6 +3,7 @@
 install_docker: yes
 install_docker_compose: yes
 docker_compose_version: "1.29.2"
+docker_role: git+https://github.com/infn-datacloud/ansible-role-docker,master
 
 # nvidia
 install_nvidia_driver: yes
