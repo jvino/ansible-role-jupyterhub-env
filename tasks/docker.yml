@@ -1,0 +1,16 @@
+---
+- name: Set ansible-role-docker role name fact
+  ansible.builtin.set_fact:
+    docker_role_name: "{{ (docker_role.split(',') | first).split('/') | last }}"
+
+- name: Install docker
+  delegate_to: 127.0.0.1
+  ansible.builtin.command: ansible-galaxy install -f -i -c {{ docker_role }}
+  register: docker_role_install
+  changed_when: >
+    docker_role_install.rc == 0 and
+    ('is already installed, skipping' not in docker_role_install.stdout)
+
+- name: Include ansible-role-gpu-support
+  ansible.builtin.include_role:
+    name: "{{ docker_role_name }}"
